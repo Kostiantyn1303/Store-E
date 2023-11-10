@@ -21,7 +21,7 @@ function App() {
         <NavBar />
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/client" element={<Home />} />
           <Route path="item/:itemId" element={<ItemDtails />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="checkout/success" element={<Confirmation />} />
