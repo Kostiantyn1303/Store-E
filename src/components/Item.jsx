@@ -39,7 +39,7 @@ const Item = ({ item, width }) => {
           width="300px"
           height="400px"
           src={`http://localhost:1337${url}`}
-          onClick={() => navigate(`/item/${item.id}`)}
+          onClick={() => navigate(`/client/item/${item.id}`)}
           style={{ cursor: "pointer" }}
         />
         <Box
