@@ -18,7 +18,7 @@ function ShoppingList() {
   };
   async function getItems() {
     const items = await fetch(
-      "https://e-commerce-uxgn.onrender.com/api/items?populate=image",
+      "https://abrams.onrender.com/api/items?populate=image",
       { method: "GET" }
     );
     const itemJson = await items.json();
