@@ -38,7 +38,7 @@ const Item = ({ item, width }) => {
           alt={item.name}
           width="300px"
           height="400px"
-          src={`https://abrams.onrender.com${url}`}
+          src={`http://localhost:1337${url}`}
           onClick={() => navigate(`/client/item/${item.id}`)}
           style={{ cursor: "pointer" }}
         />

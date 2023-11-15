@@ -18,7 +18,7 @@ function ShoppingList() {
   };
   async function getItems() {
     const items = await fetch(
-      "https://abrams.onrender.com/api/items?populate=image",
+      "http://localhost:1337/api/items?populate=image",
       { method: "GET" }
     );
     const itemJson = await items.json();
