@@ -25,7 +25,7 @@ const ItemDetails = () => {
 
   async function getItem() {
     const item = await fetch(
-      `https://e-commerce-uxgn.onrender.com/api/items/${itemId}?populate=image`,
+      `https://abrams.onrender.com/api/items/${itemId}?populate=image`,
       {
         method: "GET",
       }
@@ -36,7 +36,7 @@ const ItemDetails = () => {
 
   async function getItems() {
     const items = await fetch(
-      `https://e-commerce-uxgn.onrender.com/api/items?populate=image`,
+      `https://abrams.onrender.com/api/items?populate=image`,
       {
         method: "GET",
       }
@@ -59,7 +59,7 @@ const ItemDetails = () => {
             alt={item?.name}
             width="100%"
             height="100%"
-            src={`https://e-commerce-uxgn.onrender.com${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
+            src={`https://abrams.onrender.com${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
             style={{ objectFit: "contain" }}
           />
         </Box>
