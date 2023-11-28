@@ -17,31 +17,24 @@ function ShoppingList() {
     setValue(newValue);
   };
   async function getItems() {
-    const items = await fetch(
-      "https://abrams.onrender.com/api/items?populate=image",
-      { method: "GET" }
-    );
+    const items = await fetch("http://localhost:3001/items", {
+      method: "GET",
+    });
     const itemJson = await items.json();
-    dispatch(setItems(itemJson.data));
+    dispatch(setItems(itemJson));
   }
 
   useEffect(() => {
     getItems();
   }, []);
 
-  const topRatedItems = items?.filter(
-    (item) => item.attributes.category === "topRated"
-  );
-  const newArrivalsItems = items?.filter(
-    (item) => item.attributes.category === "newArrivals"
-  );
-  const bestSellersItems = items?.filter(
-    (item) => item.attributes.category === "bestSellers"
-  );
+  const Hudi = items?.filter((item) => item.category === "Куртки та худі");
+  const Pants = items?.filter((item) => item.category === "Штани");
+  const Shoze = items?.filter((item) => item.category === "Взуття");
   return (
     <Box width="80%" margin="80px auto">
       <Typography variant="h3" textAlign="center">
-        Our Featured <b>Products</b>
+        Наші Рекомендовані Продукти
       </Typography>
       <Tabs
         textColor="primary"
@@ -57,10 +50,10 @@ function ShoppingList() {
           },
         }}
       >
-        <Tab label="ALL" value="all" />
-        <Tab label="NEW ARRIVALS" value="newArrivals" />
-        <Tab label="BEST SELLERS" value="bestSellers" />
-        <Tab label="TOP RATED" value="topRated" />
+        <Tab label="Все" value="all" />
+        <Tab label="Штани" value="Pants" />
+        <Tab label="Взуття" value="Shoze" />
+        <Tab label="Куртки та худі" value="Hudi" />
       </Tabs>
       <Box
         margin="0 auto"
@@ -72,19 +65,19 @@ function ShoppingList() {
       >
         {value === "all" &&
           items?.map((item) => (
-            <Item item={item} key={`${item.name}-${item.id}`} />
+            <Item item={item} key={`${item.name}-${item._id}`} />
           ))}
-        {value === "newArrivals" &&
-          newArrivalsItems.map((item) => (
-            <Item item={item} key={`${item.name}-${item.id}`} />
+        {value === "Pants" &&
+          Pants.map((item) => (
+            <Item item={item} key={`${item.name}-${item._id}`} />
           ))}
-        {value === "bestSellers" &&
-          bestSellersItems.map((item) => (
-            <Item item={item} key={`${item.name}-${item.id}`} />
+        {value === "Shoze" &&
+          Shoze.map((item) => (
+            <Item item={item} key={`${item.name}-${item._id}`} />
           ))}
-        {value === "topRated" &&
-          topRatedItems.map((item) => (
-            <Item item={item} key={`${item.name}-${item.id}`} />
+        {value === "Hudi" &&
+          Hudi.map((item) => (
+            <Item item={item} key={`${item.name}-${item._id}`} />
           ))}
       </Box>
     </Box>

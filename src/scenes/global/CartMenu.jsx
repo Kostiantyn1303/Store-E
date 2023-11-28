@@ -4,6 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import styled from "@emotion/styled";
+
 import { shades } from "../../theme";
 import {
   decreaseCount,
@@ -26,7 +27,7 @@ const CartMenu = () => {
   const isCartOpen = useSelector((state) => state.cart.isCartOpen);
 
   const totalPrice = cart.reduce((total, item) => {
-    return total + item.count * item.attributes.price;
+    return total + item.count * item.price;
   }, 0);
 
   return (
@@ -52,7 +53,7 @@ const CartMenu = () => {
         <Box padding="30px" overflow="auto" height="100%">
           {/* HEADER */}
           <FlexBox mb="15px">
-            <Typography variant="h3">SHOPPING BAG ({cart.length})</Typography>
+            <Typography variant="h3">КОРЗИНА ({cart.length})</Typography>
             <IconButton onClick={() => dispatch(setIsCartOpen({}))}>
               <CloseIcon />
             </IconButton>
@@ -61,30 +62,28 @@ const CartMenu = () => {
           {/* CART LIST */}
           <Box>
             {cart.map((item) => (
-              <Box key={`${item.attributes.name}-${item.id}`}>
+              <Box key={`${item.name}-${item._id}`}>
                 <FlexBox p="15px 0">
                   <Box flex="1 1 40%">
                     <img
-                      alt={item?.name}
+                      alt={item.name}
                       width="123px"
                       height="164px"
-                      src={`https://abrams.onrender.com${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
+                      src={item.image}
                     />
                   </Box>
                   <Box flex="1 1 60%">
                     <FlexBox mb="5px">
-                      <Typography fontWeight="bold">
-                        {item.attributes.name}
-                      </Typography>
+                      <Typography fontWeight="bold">{item.name}</Typography>
                       <IconButton
                         onClick={() =>
-                          dispatch(removeFromCart({ id: item.id }))
+                          dispatch(removeFromCart({ id: item._id }))
                         }
                       >
                         <CloseIcon />
                       </IconButton>
                     </FlexBox>
-                    <Typography>{item.attributes.shortDescription}</Typography>
+                    <Typography>{item.description}</Typography>
                     <FlexBox m="15px 0">
                       <Box
                         display="flex"
@@ -93,7 +92,7 @@ const CartMenu = () => {
                       >
                         <IconButton
                           onClick={() =>
-                            dispatch(decreaseCount({ id: item.id }))
+                            dispatch(decreaseCount({ id: item._id }))
                           }
                         >
                           <RemoveIcon />
@@ -101,16 +100,21 @@ const CartMenu = () => {
                         <Typography>{item.count}</Typography>
                         <IconButton
                           onClick={() =>
-                            dispatch(increaseCount({ id: item.id }))
+                            dispatch(increaseCount({ id: item._id }))
                           }
                         >
                           <AddIcon />
                         </IconButton>
                       </Box>
+
                       <Typography fontWeight="bold">
-                        ${item.attributes.price}
+                        {item.price} грн
                       </Typography>
                     </FlexBox>
+                    <Typography fontWeight="bold">
+                      {" "}
+                      Розмір {item.sizes}
+                    </Typography>
                   </Box>
                 </FlexBox>
                 <Divider />
@@ -121,8 +125,8 @@ const CartMenu = () => {
           {/* ACTIONS */}
           <Box m="20px 0">
             <FlexBox m="20px 0">
-              <Typography fontWeight="bold">SUBTOTAL</Typography>
-              <Typography fontWeight="bold">${totalPrice}</Typography>
+              <Typography fontWeight="bold">ЗАГАЛЬНА ВАРТІСТЬ</Typography>
+              <Typography fontWeight="bold">{totalPrice} грн</Typography>
             </FlexBox>
             <Button
               sx={{
@@ -132,13 +136,17 @@ const CartMenu = () => {
                 minWidth: "100%",
                 padding: "20px 40px",
                 m: "20px 0",
+                transition: "background-color 0.3s ease",
+                "&:hover": {
+                  backgroundColor: "gray",
+                },
               }}
               onClick={() => {
-                navigate("client/checkout");
+                navigate("client/payment");
                 dispatch(setIsCartOpen({}));
               }}
             >
-              CHECKOUT
+              КУПИТИ
             </Button>
           </Box>
         </Box>

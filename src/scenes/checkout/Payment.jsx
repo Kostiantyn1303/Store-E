@@ -1,38 +1,47 @@
-import { Box, Typography } from "@mui/material";
-import TextField from "@mui/material/TextField";
+import { Box, Typography, Button } from "@mui/material";
+import { useState } from "react";
+import NovaPoshtaForm from "./Delivery";
+import { shades } from "../../theme";
+import { useNavigate } from "react-router-dom";
+const Payment = () => {
+  const navigate = useNavigate();
 
-const Payment = ({ values, touched, errors, handleBlur, handleChange }) => {
   return (
     <Box m="30px 0">
       {/* CONTACT INFO */}
       <Box>
         <Typography sx={{ mb: "15px" }} fontSize="18px">
-          Contact Info
+          Способи оплати
         </Typography>
-        <TextField
-          fullWidth
-          type="text"
-          label="Email"
-          onBlur={handleBlur}
-          onChange={handleChange}
-          value={values.email}
-          name="email"
-          error={!!touched.email && !!errors.email}
-          helperText={touched.email && errors.email}
-          sx={{ gridColumn: "span 4", marginBottom: "15px" }}
-        />
-        <TextField
-          fullWidth
-          type="text"
-          label="Phone Number"
-          onBlur={handleBlur}
-          onChange={handleChange}
-          value={values.phoneNumber}
-          name="phoneNumber"
-          error={!!touched.phoneNumber && !!errors.phoneNumber}
-          helperText={touched.phoneNumber && errors.phoneNumber}
-          sx={{ gridColumn: "span 4" }}
-        />
+        <Box display="flex" justifyContent="space-between">
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              backgroundColor: shades.primary[200],
+              boxShadow: "none",
+              color: "white",
+              borderRadius: 0,
+              padding: "15px 40px",
+            }}
+          >
+            Оплатити в один клік
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              backgroundColor: shades.primary[200],
+              boxShadow: "none",
+              color: "white",
+              borderRadius: 0,
+              padding: "15px 40px",
+            }}
+            onClick={() => navigate(`delivery`)}
+          >
+            Оплата наложеним платижем
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

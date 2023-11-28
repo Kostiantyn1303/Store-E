@@ -1,31 +1,18 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { IconButton, Box, Typography, useTheme, Button } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import { shades } from "../theme";
-import { addToCart } from "../state";
+
+import { Box, Typography, useTheme, Button } from "@mui/material";
+
 import { useNavigate } from "react-router-dom";
 
 const Item = ({ item, width }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [count, setCount] = useState(1);
+
   const [isHovered, setIsHovered] = useState(false);
   const {
     palette: { neutral },
   } = useTheme();
 
-  const { category, price, name, image } = item.attributes;
-  const {
-    data: {
-      attributes: {
-        formats: {
-          medium: { url },
-        },
-      },
-    },
-  } = image;
+  const { category, price, name, image, imageBig, _id } = item;
 
   return (
     <Box width={width}>
@@ -35,12 +22,18 @@ const Item = ({ item, width }) => {
         onMouseOut={() => setIsHovered(false)}
       >
         <img
-          alt={item.name}
+          alt={name}
           width="300px"
-          height="400px"
-          src={`https://abrams.onrender.com${url}`}
-          onClick={() => navigate(`/client/item/${item.id}`)}
-          style={{ cursor: "pointer" }}
+          height="350px"
+          src={image}
+          onClick={() => navigate(`/client/item/${_id}`)}
+          style={{
+            cursor: "pointer",
+            transition: "transform 0.3s ease-in-out",
+            transform: isHovered ? "scale(1.05)" : "scale(1)",
+            borderRadius: "4px",
+            boxShadow: isHovered ? "0 4px 8px rgba(0, 0, 0.2, 0.5)" : "none",
+          }}
         />
         <Box
           display={isHovered ? "block" : "none"}
@@ -50,41 +43,33 @@ const Item = ({ item, width }) => {
           width="100%"
           padding="0 5%"
         >
-          <Box display="flex" justifyContent="space-between">
-            <Box
-              display="flex"
-              alignItems="center"
-              backgroundColor={shades.neutral[100]}
-              borderRadius="3px"
-            >
-              <IconButton onClick={() => setCount(Math.max(count - 1, 1))}>
-                <RemoveIcon />
-              </IconButton>
-              <Typography color={shades.primary[300]}>{count}</Typography>
-              <IconButton onClick={() => setCount(count + 1)}>
-                <AddIcon />
-              </IconButton>
-            </Box>
+          <Box display="flex" justifyContent="center">
             <Button
-              onClick={() => {
-                dispatch(addToCart({ item: { ...item, count } }));
+              sx={{
+                backgroundColor: "#222222",
+                color: "white",
+                borderRadius: 0,
+                minWidth: "150px",
+                padding: "10px 40px",
+                transition: "background-color 0.3s ease",
+                "&:hover": {
+                  backgroundColor: "gray",
+                },
               }}
-              sx={{ backgroundColor: shades.primary[300], color: "white" }}
+              onClick={() => navigate(`/client/item/${_id}`)}
             >
-              Add to Cart
+              Деталі
             </Button>
           </Box>
         </Box>
       </Box>
 
-      <Box mt="3px">
-        <Typography variant="subtitle2" color={neutral.dark}>
-          {category
-            ?.replace(/([A-Z])/g, " $1")
-            ?.replace(/^./, (str) => str.toUpperCase())}
+      <Box mt="15px">
+        {" "}
+        <Typography textAlign="center">{name}</Typography>
+        <Typography fontWeight="bold" textAlign="center" fontSize="16px">
+          {price} грн
         </Typography>
-        <Typography>{name}</Typography>
-        <Typography fontWeight="bold">${price}</Typography>
       </Box>
     </Box>
   );
